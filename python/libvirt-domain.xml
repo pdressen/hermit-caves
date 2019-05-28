@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<domain type='kvm'>
+    <name>hermit0</name>
+    <cpu mode='host-model'/>
+    <vcpu placement='static'>1</vcpu>
+    <memory unit='MiB'>128</memory>
+    <os>
+        <type>hvm</type>
+        <kernel>/opt/hermit/bin/ldhermit.elf</kernel>
+        <initrd>/opt/hermit/x86_64-hermit/extra/tests/server</initrd>
+        <cmdline>-freq2900 -proxy</cmdline>
+    </os>
+    <on_poweroff>destroy</on_poweroff>
+    <on_reboot>restart</on_reboot>
+    <on_crash>restart</on_crash>
+    <devices>
+        <serial type='stdio'>
+            <target type='pci-serial' port='0'>
+            <model name='pci-serial'/>
+            </target>
+            <log file='/tmp/hermit0.log'/>
+        </serial>
+        <interface type='network'>
+            <source network='unicompose'/>
+            <target dev='vnet0'/>
+            <model type='virtio'/> 
+        </interface>
+    </devices>
+</domain>
